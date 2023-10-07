@@ -1,0 +1,72 @@
+8. Deposit Function - 
+
+import tkinter as tk
+from tkinter import messagebox
+
+def deposit_amount():
+  account_type = account_type_var.get()
+  account_number = account_number_input.get()
+  deposit_amount = amount_input.get()
+
+  if not account_number or not deposit_amount:
+    update_output("Please fill in all the details.", "red")
+    return
+
+  try:
+    deposit_amount = float(deposit_amount)
+    if deposit_amount <= 0:
+      update_output("Amount must be greater than zero.", "red")
+      return
+  except ValueError:
+    update_output("Invalid amount format. Please enter a valid amount.", "red")
+    return
+
+  # Perform the deposit action (replace with actual logic)
+  # Here, we simulate a successful deposit
+  success = True  # Replace with logic for success/failure
+
+  if success:
+    update_output("Amount deposited successfully!", "green")
+    clear_fields()
+  else:
+    update_output("Failure to deposit amount.", "red")
+
+def clear_fields():
+  account_number_input.delete(0, tk.END)  # Clear the account number input
+  amount_input.delete(0, tk.END)  # Clear the amount input
+
+def update_output(message, color):
+  output_label.config(text=message, fg=color)
+
+root = tk.Tk()
+root.title("Deposit Page")
+
+account_type_label = tk.Label(root, text="Account Type:")
+account_type_label.pack()
+
+account_type_options = ["Savings", "Current", "Fixed Deposit", "Term Deposit"]
+account_type_var = tk.StringVar(root)
+account_type_var.set(account_type_options[0])  # Set the default value
+account_type_dropdown = tk.OptionMenu(root, account_type_var,
+                                      *account_type_options)
+account_type_dropdown.pack()
+
+account_number_label = tk.Label(root, text="Account Number:")
+account_number_label.pack()
+
+account_number_input = tk.Entry(root)
+account_number_input.pack()
+
+amount_label = tk.Label(root, text="Amount:")
+amount_label.pack()
+
+amount_input = tk.Entry(root)
+amount_input.pack()
+
+deposit_button = tk.Button(root, text="Deposit", command=deposit_amount)
+deposit_button.pack()
+
+output_label = tk.Label(root, text="", fg="black")
+output_label.pack()
+
+root.mainloop()

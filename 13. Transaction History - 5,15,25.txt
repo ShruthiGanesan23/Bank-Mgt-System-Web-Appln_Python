@@ -1,0 +1,36 @@
+13. Transaction History - 5,15,25 
+
+import tkinter as tk
+
+def show_transactions(account_number, num_transactions):
+    transactions = get_last_transactions(account_number, num_transactions)
+    for transaction in transactions:
+        label = tk.Label(root, text=transaction)
+        label.pack()
+a
+def get_last_transactions(account_number, num_transactions):
+    transactions = [f"Transaction {i}" for i in range(1, num_transactions + 1)]
+    return transactions
+
+root = tk.Tk()
+root.title("Transactions Page")
+
+account_number_label = tk.Label(root, text="Account Number:")
+account_number_label.grid(row=0, column=0)
+
+account_number_input = tk.Entry(root)
+account_number_input.grid(row=0, column=1)
+
+show_5_transactions_button = tk.Button(root, text="Show Last 5 Transactions", command=lambda: show_transactions(account_number_input.get(), 5))
+show_5_transactions_button.grid(row=1, column=0)
+
+show_15_transactions_button = tk.Button(root, text="Show Last 15 Transactions", command=lambda: show_transactions(account_number_input.get(), 15))
+show_15_transactions_button.grid(row=1, column=1)
+
+show_25_transactions_button = tk.Button(root, text="Show Last 25 Transactions", command=lambda: show_transactions(account_number_input.get(), 25))
+show_25_transactions_button.grid(row=1, column=2)
+
+exit_button = tk.Button(root, text="Exit", command=root.destroy)
+exit_button.grid(row=2, columnspan=3)
+
+root.mainloop()

@@ -1,0 +1,44 @@
+4.Number of Customers-
+
+import tkinter as tk
+from tkinter import ttk
+
+# Function to open a new window with customer data
+def show_customer_data():
+    customer_window = tk.Toplevel(root)
+    customer_window.title("Customer Data")
+
+    # Sample customer data (replace this with your actual data retrieval)
+    customer_data = [
+        ("1", "12345", "John", "Doe", "Savings"),
+        ("2", "54321", "Jane", "Smith", "Checking"),
+        # Add more data rows here
+    ]
+
+    # Create a treeview widget to display data in a table format
+    tree = ttk.Treeview(customer_window, columns=("Customer_ID", "AccountNumber", "FirstName", "LastName", "AccountType"), show="headings")
+
+    # Define column headings
+    tree.heading("Customer_ID", text="Customer ID")
+    tree.heading("AccountNumber", text="Account Number")
+    tree.heading("FirstName", text="First Name")
+    tree.heading("LastName", text="Last Name")
+    tree.heading("AccountType", text="Account Type")
+
+    # Insert data into the treeview
+    for row in customer_data:
+        tree.insert("", "end", values=row)
+
+    tree.pack()
+
+# Create the main application window
+root = tk.Tk()
+root.title("Customer Management")
+
+# Create a button to show customer data
+show_data_button = tk.Button(root, text="Show Customer Data", command=show_customer_data)
+show_data_button.pack(padx=20, pady=10)
+
+# Start the main event loop
+root.mainloop()
+

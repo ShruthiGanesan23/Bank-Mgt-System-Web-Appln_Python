@@ -1,0 +1,84 @@
+final code 
+
+import tkinter as tk
+from tkinter import ttk, messagebox
+import random
+
+class AdminLoginApp:
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Admin User Interface")
+
+        self.create_ui()
+
+    def create_ui(self):
+        # ... (Your existing AdminLoginApp code)
+
+    def submit(self):
+        # ... (Your existing submit method)
+
+class BankManagementApp:
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Bank Management System")
+
+        self.create_ui()
+
+    def create_ui(self):
+        # ... (Your existing BankManagementApp code)
+
+    def validate_mobile(self, mobile):
+        # ... (Your existing validate_mobile method)
+
+    def validate_password_match(self):
+        # ... (Your existing validate_password_match method)
+
+    def validate_fields(self):
+        # ... (Your existing validate_fields method)
+
+    def submit_new_account(self):
+        # ... (Your existing submit_new_account method)
+
+    def open_new_account_window(self):
+        # ... (Your existing open_new_account_window method)
+
+def show_customer_data():
+    # ... (Your existing show_customer_data function)
+
+root = tk.Tk()
+app = AdminLoginApp(root)
+root.mainloop()
+
+# Code for BankManagementApp and other functions/classes should go here.
+
+def get_last_10_transactions(account_number):
+    # ... (Your existing get_last_10_transactions function)
+
+def show_transactions(account_number):
+    # ... (Your existing show_transactions function)
+
+def open_report_page(report_type):
+    # ... (Your existing open_report_page function)
+
+def show_customer_data():
+    # ... (Your existing show_customer_data function)
+
+def deposit_amount():
+    # ... (Your existing deposit_amount function)
+
+def withdraw_amount():
+    # ... (Your existing withdraw_amount function)
+
+def transfer_funds():
+    # ... (Your existing transfer_funds function)
+
+def check_balance():
+    # ... (Your existing check_balance function)
+
+def generate_account_number():
+    # ... (Your existing generate_account_number function)
+
+# The remaining code for GUI elements and main loops should go here.
+

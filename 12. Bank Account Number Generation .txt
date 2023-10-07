@@ -1,0 +1,43 @@
+12. Bank Account Number Generation - 
+
+import tkinter as tk
+import random
+
+def generate_account_number():
+
+    first_name = entry_first_name.get()[:2].upper()
+    last_name = entry_last_name.get()[:2].upper()
+    
+    mobile_number = entry_mobile_number.get()[-6:]
+    
+    account_suffix = str(random.randint(10000, 99999))
+    
+    account_number = first_name + last_name + mobile_number + account_suffix
+   
+    result_label.config(text="Generated Account Number: " + account_number)
+
+window = tk.Tk()
+window.title("Bank Account Number Generator")
+
+label_first_name = tk.Label(window, text="First Name:")
+label_first_name.pack()
+entry_first_name = tk.Entry(window)
+entry_first_name.pack()
+
+label_last_name = tk.Label(window, text="Last Name:")
+label_last_name.pack()
+entry_last_name = tk.Entry(window)
+entry_last_name.pack()
+
+label_mobile_number = tk.Label(window, text="Mobile Number:")
+label_mobile_number.pack()
+entry_mobile_number = tk.Entry(window)
+entry_mobile_number.pack()
+
+generate_button = tk.Button(window, text="Generate Account Number", command=generate_account_number)
+generate_button.pack()
+
+result_label = tk.Label(window, text="")
+result_label.pack()
+
+window.mainloop()

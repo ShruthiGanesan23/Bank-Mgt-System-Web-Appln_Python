@@ -1,0 +1,44 @@
+6. Transactions - Last 10
+
+import tkinter as tk
+
+root = tk.Tk()
+root.title("Transactions Page")
+
+account_number_label = tk.Label(root, text="Account Number:")
+account_number_label.pack()
+
+account_number_input = tk.Entry(root)
+account_number_input.pack()
+
+show_transactions_button = tk.Button(root, text="Show Last 10 Transactions", command=lambda: show_transactions(account_number_input.get()))
+show_transactions_button.pack()
+
+exit_button = tk.Button(root, text="Exit", command=root.destroy)
+exit_button.pack()
+
+def show_transactions(account_number):
+
+    transactions = get_last_10_transactions(account_number)
+
+    for transaction in transactions:
+        label = tk.Label(root, text=transaction)
+        label.pack()
+
+def get_last_10_transactions(account_number):
+
+    transactions = [
+        "Transaction 1",
+        "Transaction 2",
+        "Transaction 3",
+        "Transaction 4",
+        "Transaction 5",
+        "Transaction 6",
+        "Transaction 7",
+        "Transaction 8",
+        "Transaction 9",
+        "Transaction 10",
+    ]
+    return transactions
+  
+root.mainloop()

@@ -1,0 +1,125 @@
+6. Customer Login - Banking Functions
+
+import tkinter as tk
+from tkinter import messagebox
+
+class BankingApp:
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("DSS BANK")
+        self.logged_in = False
+        self.username = ""
+        self.create_ui()
+
+    def create_ui(self):
+        self.login_frame = tk.Frame(self.root)
+        self.banking_frame = None  
+      
+        self.login_app = self.create_customer_login_app(self.login_frame)
+
+        self.login_frame.pack()
+
+    def create_customer_login_app(self, parent):
+        return CustomerLoginApp(parent, self.on_login)
+
+    def on_login(self, username):
+        self.logged_in = True
+        self.username = username
+        self.login_frame.pack_forget()
+
+        self.banking_frame = tk.Toplevel(self.root)
+        self.banking_frame.title(f"DSD Bank Welcomes {self.username}")
+
+        logout_btn = tk.Button(self.banking_frame, text="Log Out", command=self.logout)
+        logout_btn.grid(row=0, column=30, sticky="ne", padx=10, pady=10)
+
+        buttons = [
+            ("Deposit", self.deposit),
+            ("Withdraw", self.withdraw),
+            ("Transfer", self.transfer),
+            ("Balance Enquiry", self.balance_enquiry),
+            ("Transaction History", self.transaction_history),
+        ]
+
+        for i, (text, command) in enumerate(buttons):
+            button = tk.Button(self.banking_frame, text=text, command=command)
+            button.grid(row=0, column=i, padx=10, pady=10)
+
+    def logout(self):
+        self.logged_in = False
+        self.username = ""
+
+        if self.banking_frame:
+            self.banking_frame.destroy()
+
+        self.login_frame = tk.Frame(self.root)
+        self.login_app = self.create_customer_login_app(self.login_frame)
+        self.login_frame.pack()
+
+    def deposit(self):
+        messagebox.showinfo("Deposit", "Deposit action goes here.")
+
+    def withdraw(self):
+        messagebox.showinfo("Withdraw", "Withdraw action goes here.")
+
+    def transfer(self):
+        messagebox.showinfo("Transfer", "Transfer action goes here.")
+
+    def balance_enquiry(self):
+        messagebox.showinfo("Balance Enquiry", "Balance enquiry action goes here.")
+
+    def transaction_history(self):
+        messagebox.showinfo("Transaction History", "Transaction history action goes here.")
+
+class CustomerLoginApp:
+
+    def __init__(self, root, on_login_callback):
+        self.root = root
+        self.on_login_callback = on_login_callback
+        self.create_ui()
+
+    def create_ui(self):
+        self.label = tk.Label(self.root, text="Customer Login", font=("Helvetica", 16))
+        self.label.pack(pady=10)
+
+        self.username_label = tk.Label(self.root, text="Username:")
+        self.username_label.pack()
+
+        self.username_entry = tk.Entry(self.root)
+        self.username_entry.pack()
+
+        self.password_label = tk.Label(self.root, text="Password:")
+        self.password_label.pack()
+
+        self.password_entry = tk.Entry(self.root, show="*")
+        self.password_entry.pack()
+
+        self.confirm_password_label = tk.Label(self.root, text="Confirm Password:")
+        self.confirm_password_label.pack()
+
+        self.confirm_password_entry = tk.Entry(self.root, show="*")
+        self.confirm_password_entry.pack()
+
+        self.submit_btn = tk.Button(self.root, text="Submit", command=self.submit)
+        self.submit_btn.pack(pady=10)
+
+    def submit(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+        confirm_password = self.confirm_password_entry.get()
+
+        if not username or not password or not confirm_password:
+            messagebox.showerror("Error", "Please fill in all the details.")
+            return
+
+        if password == confirm_password:
+            messagebox.showinfo("Success", "Login successful!")
+            self.on_login_callback(username)
+        else:
+            messagebox.showerror("Error", "Passwords do not match. Please try again.")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = BankingApp(root)
+    root.mainloop()

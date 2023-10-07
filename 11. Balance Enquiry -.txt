@@ -1,0 +1,50 @@
+11. Balance Enquiry - import tkinter as tk
+from tkinter import messagebox
+
+accounts = {
+  "12345": {
+    "name": "John Doe",
+    "balance": 1000.0
+  },
+  "54321": {
+    "name": "Jane Smith",
+    "balance": 1500.0
+  },
+}
+
+
+def check_balance():
+  account_number = account_number_entry.get()
+
+  if account_number in accounts:
+    balance = accounts[account_number]["balance"]
+    messagebox.showinfo(
+      "Balance Enquiry",
+      f"Account Number: {account_number}\nAvailable Balance: ${balance:.2f}")
+  else:
+    messagebox.showerror("Error", "Please enter a valid Account Number.")
+
+  clear_entry()
+
+
+def clear_entry():
+  account_number_entry.delete(0, tk.END)
+
+
+root = tk.Tk()
+root.title("Balance Enquiry")
+
+account_number_label = tk.Label(root, text="Enter Account Number:")
+account_number_label.pack()
+account_number_entry = tk.Entry(root)
+account_number_entry.pack()
+
+check_balance_button = tk.Button(root,
+                                 text="Check Balance",
+                                 command=check_balance)
+check_balance_button.pack()
+
+exit_button = tk.Button(root, text="Exit Page", command=root.quit)
+exit_button.pack()
+
+root.mainloop()

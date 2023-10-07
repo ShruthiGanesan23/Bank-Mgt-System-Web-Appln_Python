@@ -1,0 +1,74 @@
+9. Withdraw Page - 
+
+import tkinter as tk
+from tkinter import messagebox
+
+def withdraw_amount():
+    account_type = account_type_var.get()
+    account_number = account_number_input.get()
+    balance = balance_input.get()
+
+    if not account_number or not balance:
+        update_output("Please fill in all the details.", "red")
+        return
+
+    try:
+        balance = float(balance)
+        if balance <= 0:
+            update_output("Balance must be greater than zero.", "red")
+            return
+    except ValueError:
+        update_output("Invalid balance format. Please enter a valid balance.", "red")
+        return
+
+    # Perform the withdrawal action (replace with  actual logic)
+    # Here, we simulate a successful withdrawal
+    success = True  # Replace with logic for success/failure
+
+    if success:
+        update_output("Withdrawal Successful!", "green")
+        clear_fields()
+    else:
+        update_output("Transaction Failed.", "red")
+
+def clear_fields():
+    account_type_var.set("")  
+    account_number_input.delete(0, tk.END)  
+    balance_input.delete(0, tk.END)  
+
+def update_output(message, color):
+    output_label.config(text=message, fg=color)
+
+root = tk.Tk()
+root.title("Withdrawal Page")
+
+account_type_var = tk.StringVar()
+
+account_type_label = tk.Label(root, text="Account Type:")
+account_type_label.pack()
+
+account_type_options = ["Savings", "Current", "Deposit"]
+account_type_var.set(account_type_options[0])  
+
+account_type_dropdown = tk.OptionMenu(root, account_type_var, *account_type_options)
+account_type_dropdown.pack()
+
+account_number_label = tk.Label(root, text="Account Number:")
+account_number_label.pack()
+
+account_number_input = tk.Entry(root)
+account_number_input.pack()
+
+balance_label = tk.Label(root, text="Balance:")
+balance_label.pack()
+
+balance_input = tk.Entry(root)
+balance_input.pack()
+
+withdraw_button = tk.Button(root, text="Withdraw", command=withdraw_amount)
+withdraw_button.pack()
+
+output_label = tk.Label(root, text="", fg="black")
+output_label.pack()
+
+root.mainloop()

@@ -1,0 +1,302 @@
+Jupiter code - Abdullah 
+
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+
+def get_last_10_transactions(account_number):
+    transactions = [
+    "Transaction 1",
+    "Transaction 2",
+    "Transaction 3",
+    "Transaction 4",
+    "Transaction 5",
+    "Transaction 6",
+    "Transaction 7",
+    "Transaction 8",
+    "Transaction 9",
+    "Transaction 10",
+    ]
+    return transactions
+
+
+class AdminLoginApp:
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Admin User Interface")
+
+        self.create_ui()
+
+    def create_ui(self):
+        self.label = tk.Label(self.root,
+                              text="Admin Login",
+                              font=("Helvetica", 16))
+        self.label.pack(pady=10)
+
+        self.username_label = tk.Label(self.root, text="Username:")
+        self.username_label.pack()
+
+        self.username_entry = tk.Entry(self.root)
+        self.username_entry.pack()
+
+        self.password_label = tk.Label(self.root, text="Password:")
+        self.password_label.pack()
+
+        self.password_entry = tk.Entry(self.root, show="*")
+        self.password_entry.pack()
+
+        self.confirm_password_label = tk.Label(self.root, text="Confirm Password:")
+        self.confirm_password_label.pack()
+
+        self.confirm_password_entry = tk.Entry(self.root, show="*")
+        self.confirm_password_entry.pack()
+
+        self.submit_btn = tk.Button(self.root, text="Submit", command=self.submit)
+        self.submit_btn.pack(pady=10)
+
+    def submit(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+        confirm_password = self.confirm_password_entry.get()
+
+        if not username or not password or not confirm_password:
+            messagebox.showerror("Error", "Please fill all the details.")
+            return
+
+        if password == confirm_password:
+            messagebox.showinfo("Success", "Successful Login!")
+            self.open_bank_management()
+        else:
+            messagebox.showerror("Error",
+                               "Passwords do not match. Please try again.")
+
+    def open_bank_management(self):
+        self.root.destroy()
+        root = tk.Tk()
+        app = BankManagementApp(root)
+        root.mainloop()
+
+
+class BankManagementApp:
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Bank Management System")
+
+        self.create_ui()
+
+    def create_ui(self):
+        self.open_account_button = tk.Button(self.root,
+                                             text="Open New Account",
+                                             command=self.open_new_account_window)
+        self.open_account_button.pack(pady=10)
+
+        self.show_data_button = tk.Button(self.root,
+                                          text="Show Customer Data",
+                                          command=self.show_customer_data)
+        self.show_data_button.pack(pady=10)
+
+        self.show_customers_button = tk.Button(
+          self.root,
+          text="Number of Customers",
+          command=self.show_number_of_customers)
+        self.show_customers_button.pack(pady=10)
+
+        self.reports_button = tk.Button(self.root,
+                                        text="Reports Page",
+                                        command=self.open_reports_page)
+        self.reports_button.pack(pady=10)
+
+        self.transactions_button = tk.Button(self.root,
+                                             text="Transactions - Last 10",
+                                             command=self.open_transactions_page)
+        self.transactions_button.pack(pady=10)
+
+    def validate_mobile(self, mobile):
+        if not mobile.isdigit() or len(mobile) != 10:
+            messagebox.showerror("Invalid Mobile Number",
+                               "Please enter a valid 10-digit mobile number.")
+            return False
+        return True
+
+    def validate_password_match(self):
+        if self.password_var.get() != self.confirm_password_var.get():
+            messagebox.showerror("Password Mismatch", "Passwords do not match!")
+            return False
+        return True
+
+    def validate_fields(self):
+        for label_text, var in self.fields[:-2]:
+            if not var.get():
+                messagebox.showerror("Error", "Please fill all the details.")
+                return False
+        return True
+
+    def submit_new_account(self):
+        if not self.validate_password_match() or not self.validate_fields():
+            return
+    
+        mobile = self.mobile_var.get()
+        if not self.validate_mobile(mobile):
+            return
+
+        # Implement logic to create a new account
+        # Use the data in self.fields
+
+        messagebox.showinfo("Account Created",
+                            "New account has been created successfully!")
+
+    def open_new_account_window(self):
+        new_account_window = tk.Toplevel(self.root)
+        new_account_window.title("Open New Account")
+
+        self.fields = [("First Name", tk.StringVar()),
+                       ("Last Name", tk.StringVar()), ("Email", tk.StringVar()),
+                       ("Gender", tk.StringVar()), ("Age", tk.StringVar()),
+                       ("Address", tk.StringVar()),
+                       ("Type of Account", tk.StringVar()),
+                       ("D.O.B", tk.StringVar()), ("KYC", tk.StringVar()),
+                       ("Opening Balance", tk.IntVar()),
+                       ("Mobile", tk.StringVar()), ("Password", tk.StringVar()),
+                       ("Confirm Password", tk.StringVar())]
+
+        for label_text, var in self.fields:
+            label = tk.Label(new_account_window, text=label_text)
+            label.grid(column=0, row=self.fields.index((label_text, var)))
+            if label_text == "Gender":
+                values = ["Male", "Female", "Other"]
+                entry = ttk.Combobox(new_account_window,
+                                     values=values,
+                                     textvariable=var)
+            elif label_text == "Type of Account":
+                values = ["Savings", "Current", "Deposits"]
+                entry = ttk.Combobox(new_account_window,
+                                     values=values,
+                                     textvariable=var)
+            elif label_text == "KYC":
+                values = ["Aadhar", "PAN Card"]
+                entry = ttk.Combobox(new_account_window,
+                                     values=values,
+                                     textvariable=var)
+            elif label_text in ("Password", "Confirm Password"):
+                entry = tk.Entry(new_account_window, textvariable=var, show="*")
+            else:
+                entry = tk.Entry(new_account_window, textvariable=var)
+            entry.grid(column=1, row=self.fields.index((label_text, var)))
+
+        self.password_var = self.fields[-2][1]
+        self.confirm_password_var = self.fields[-1][1]
+        self.mobile_var = self.fields[-3][1]
+
+        submit_button = tk.Button(new_account_window,
+                                  text="Submit",
+                                  command=self.submit_new_account)
+        submit_button.grid(columnspan=2)
+
+    def show_customer_data(self):
+        customer_window = tk.Toplevel(self.root)
+        customer_window.title("Customer Data")
+
+        # Sample customer data (replace this with your actual data retrieval)
+        customer_data = [
+          ("1", "12345", "John", "Doe", "Savings"),
+          ("2", "54321", "Jane", "Smith", "Checking"),
+          # Add more data rows here
+        ]
+
+        # Create a treeview widget to display data in a table format
+        tree = ttk.Treeview(customer_window,
+                            columns=("Customer_ID", "AccountNumber", "FirstName",
+                                     "LastName", "AccountType"),
+                            show="headings")
+
+        # Define column headings
+        tree.heading("Customer_ID", text="Customer ID")
+        tree.heading("AccountNumber", text="Account Number")
+        tree.heading("FirstName", text="First Name")
+        tree.heading("LastName", text="Last Name")
+        tree.heading("AccountType", text="Account Type")
+
+        # Insert data into the treeview
+        for row in customer_data:
+            tree.insert("", "end", values=row)
+
+        tree.pack()
+
+    def show_number_of_customers(self):
+        # Implement your logic to retrieve the number of customers
+        num_customers = 100  # Replace this with your actual number of customers
+        tk.messagebox.showinfo("Number of Customers",
+                               f"Total Number of Customers: {num_customers}")
+
+    def open_reports_page(self):
+        reports_page = tk.Toplevel(self.root)
+        reports_page.title("Reports Page")
+
+        daily_button = tk.Button(reports_page,
+                                 text="Daily Report",
+                                 command=lambda: self.open_report_page(1))
+        monthly_button = tk.Button(reports_page,
+                                   text="Monthly Report",
+                                   command=lambda: self.open_report_page(2))
+        yearly_button = tk.Button(reports_page,
+                                  text="Yearly Report",
+                                  command=lambda: self.open_report_page(3))
+
+        daily_button.grid(row=0, column=10)
+        monthly_button.grid(row=1, column=10)
+        yearly_button.grid(row=2, column=10)
+
+    def open_report_page(self, report_type):
+        report_page = tk.Toplevel(self.root)
+        report_page.title("Consolidated Report")
+
+        if report_type == 1:
+            text = "Daily Transaction Report"
+        elif report_type == 2:
+            text = "Monthly Transactional Report"
+        elif report_type == 3:
+            text = "Yearly Transactional Report"
+
+        label = tk.Label(report_page, text=text)
+        label.pack()
+
+        back_button = tk.Button(report_page,
+                                text="Go to Report Page",
+                                command=report_page.destroy)
+        back_button.pack()
+
+    def open_transactions_page(self):
+        transactions_page = tk.Toplevel(self.root)
+        transactions_page.title("Transactions Page")
+
+        account_number_label = tk.Label(transactions_page, text="Account Number:")
+        account_number_label.pack()
+
+        account_number_input = tk.Entry(transactions_page)
+        account_number_input.pack()
+
+        show_transactions_button = tk.Button(
+          transactions_page,
+          text="Show Last 10 Transactions",
+          command=lambda: self.show_transactions(account_number_input.get()))
+        show_transactions_button.pack()
+
+        exit_button = tk.Button(transactions_page,
+                                text="Exit",
+                                command=transactions_page.destroy)
+        exit_button.pack()
+
+    def show_transactions(self, account_number):
+        transactions = get_last_10_transactions(account_number)
+
+        for transaction in transactions:
+            label = tk.Label(self.root, text=transaction)
+            label.pack()
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AdminLoginApp(root)
+    root.mainloop()

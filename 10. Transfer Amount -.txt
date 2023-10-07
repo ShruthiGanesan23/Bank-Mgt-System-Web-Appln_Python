@@ -1,0 +1,78 @@
+10. Transfer Amount - 
+
+import tkinter as tk
+from tkinter import messagebox
+
+accounts = {
+  "12345": {
+    "name": "John Doe",
+    "balance": 1000.0
+  },
+  "54321": {
+    "name": "Jane Smith",
+    "balance": 1500.0
+  },
+}
+
+
+def transfer_funds():
+  from_account = from_account_entry.get()
+  to_account = to_account_entry.get()
+  name = name_entry.get()
+  amount = amount_entry.get()
+
+  if not from_account or not to_account or not name or not amount:
+    messagebox.showerror("Error", "Please enter all the details.")
+    return
+
+  amount = float(amount)
+
+  if from_account in accounts and to_account in accounts:
+    if accounts[from_account]["balance"] >= amount:
+      accounts[from_account]["balance"] -= amount
+      accounts[to_account]["balance"] += amount
+      messagebox.showinfo("Transaction Successful",
+                          "Funds transferred successfully!")
+    else:
+      messagebox.showerror("Transaction Failed",
+                           "Insufficient funds in the From Account.")
+  else:
+    messagebox.showerror("Transaction Failed", "Invalid account number(s).")
+
+  clear_entries()
+
+
+def clear_entries():
+  from_account_entry.delete(0, tk.END)
+  to_account_entry.delete(0, tk.END)
+  name_entry.delete(0, tk.END)
+  amount_entry.delete(0, tk.END)
+
+
+root = tk.Tk()
+root.title("Fund Transfer")
+
+from_account_label = tk.Label(root, text="From Account Number:")
+from_account_label.pack()
+from_account_entry = tk.Entry(root)
+from_account_entry.pack()
+
+to_account_label = tk.Label(root, text="To Account Number:")
+to_account_label.pack()
+to_account_entry = tk.Entry(root)
+to_account_entry.pack()
+
+name_label = tk.Label(root, text="Name:")
+name_label.pack()
+name_entry = tk.Entry(root)
+name_entry.pack()
+
+amount_label = tk.Label(root, text="Amount:")
+amount_label.pack()
+amount_entry = tk.Entry(root)
+amount_entry.pack()
+
+transfer_button = tk.Button(root, text="Transfer", command=transfer_funds)
+transfer_button.pack()
+
+root.mainloop()
